@@ -5,7 +5,16 @@
 飞桨深度学习框架提供了动态图编程的模式来开发深度学习模型，但动态图的反向图调试能力仍存在不足。为了更好地追踪反向图执行流程，本项目为飞桨框架提供了反向图可视化能力。
 
 ## 安装
-运行本项目需要提前安装第三方可视化工具包`graphviz`
+### paddle 版本
+由于是新特性，运行本项目需要从[官网](https://www.paddlepaddle.org.cn/install/quick?docurl=/documentation/docs/zh/develop/install/pip/linux-pip.html)安装最新版本的`paddlepaddle`。
+
+安装命令
+```shell
+python -m pip install paddlepaddle==0.0.0 -f https://www.paddlepaddle.org.cn/whl/linux/cpu-mkl/develop.html
+```
+
+### 其他依赖包
+运行本项目需要提前安装第三方可视化工具包`graphviz`。
 
 安装命令
 ```shell
