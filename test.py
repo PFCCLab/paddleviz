@@ -1,7 +1,11 @@
+import os
+os.environ['GLOG_v'] = '6'
+
 import paddle
 import paddle.nn as nn
 
 from paddleviz.viz import make_graph
+
 
 class Testmodel(nn.Layer):
     def __init__(self):
@@ -10,9 +14,11 @@ class Testmodel(nn.Layer):
         self.pool = nn.MaxPool2D(2, 2)
 
     def forward(self, x):
-        x = self.conv(x)
-        x = self.pool(x)
-        return x 
+        y = x ** 2
+        y = x + y
+        # x = self.conv(x)
+        # x = self.pool(x)
+        return y 
 
 class LeNet(nn.Layer):
     def __init__(self):
@@ -39,10 +45,42 @@ class LeNet(nn.Layer):
         return output
 
 
+
 if __name__ == '__main__':
     model = Testmodel()
     # model = LeNet()
-    x = paddle.randn([1, 3, 24, 24])
+    x = paddle.randn([1, 1, 4, 4])
+    x.stop_gradient = False 
+    
     y = model(x)
+
+    print(":Hello-------")
+
+    # 先输出日志信息
+    y.backward()
+
     dot = make_graph(y)
     dot.render('viz-result.gv', format='png', view=True)
+    # unittest.main()
+    
+
+# os.environ['GLOG_v'] = '11'
+
+# import paddle
+# import paddle.nn as nn
+
+# class Testmodel(nn.Layer):
+#     def __init__(self):
+#         super().__init__()
+#     def forward(self, x):
+#         y = x**2
+#         y = x + y
+#         return y
+
+# tst_model = Testmodel()
+# x = paddle.randn([2, 2])
+# x.stop_gradient = False
+# y = tst_model(x)
+
+# print(y)
+# y.backward()
