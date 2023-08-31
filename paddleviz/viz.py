@@ -3,7 +3,6 @@ import numpy as np
 
 from graphviz import Digraph
 
-from .util import add_edge_info
 
 def make_graph(var):
     """visualize reversed graph
