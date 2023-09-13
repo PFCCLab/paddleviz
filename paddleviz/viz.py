@@ -7,10 +7,12 @@ from graphviz import Digraph
 # The map of grad_nodes, which key is point of operator and value is point of grad_node
 grad_nodes = {}
 
-def make_graph(var):
+def make_graph(var, dpi="600"):
     """visualize reversed graph
 
     :param var: output of the network's forward process
+    :param dpi: resolution of graph
+
     :return dot: result of reversed graph, its type is `graphviz.Digraph`
     """
     node_attr = dict(style='filled',
@@ -20,7 +22,7 @@ def make_graph(var):
                      ranksep='0.1',
                      height='0.2',
                      fontname='monospace')
-    dot = Digraph(node_attr=node_attr, graph_attr=dict(size="12,12", rankdir="BT", dpi="600"), strict=True)
+    dot = Digraph(node_attr=node_attr, graph_attr=dict(size="12,12", rankdir="BT", dpi=dpi), strict=True)
     seen = set()
 
     def add_nodes(fn):
@@ -76,10 +78,11 @@ def make_graph(var):
 
 
 def processOPLog(str, op_id, dot):
-  """
-  str: the log of operator
-  op_id: the pointer of oparator
-  dot: the whole dot
+  """ extract edge info of operator from output log
+
+  :param str: the log of operator
+  :param op_id: the pointer of oparator
+  :param dot: the whole dot
   """
   start = str.find("Input")
 
