@@ -30,11 +30,26 @@ class Model(nn.Layer):
         output = self.fc(feature.reshape([img.shape[0], -1]))
         return output
 
+class Transformer(nn.Layer):
+    def __init__(self) -> None:
+        super(Transformer, self).__init__()
+        encoder_layer = nn.TransformerEncoderLayer(128, 2, 512)
+        self.encoder = nn.TransformerEncoder(encoder_layer, 2)
+        
+
+    def forward(self, img):
+        img = self.encoder(img)
+        return img
+
+
 if __name__ == '__main__':
     
     # 定义网络
     model = Model()
     x = paddle.randn([1, 3, 32, 32])
+
+    # model = Transformer()
+    # x = paddle.randn([2, 4, 128])
 
     # 正向推理
     y = model(x)

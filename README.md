@@ -33,6 +33,8 @@ pip install graphviz
 
 ```python
 import os
+
+# 将日志级别设置为6
 os.environ['GLOG_v'] = '6'
 
 import paddle
