@@ -37,16 +37,16 @@ def make_graph(var, dpi="600"):
 
         # add the node for this grad_fn
         if fn.name().startswith('GradNodeAccumulation'):
-            dot.node(str(hex(fn.node_this_ptr())), fn.name() + '-' + str(hex(fn.node_this_ptr())), fillcolor='#FFCC99', shape='ellipse')
+            dot.node(str(hex(fn.node_ptr())), fn.name() + '-' + str(hex(fn.node_ptr())), fillcolor='#FFCC99', shape='ellipse')
         else:
-            dot.node(str(hex(fn.node_this_ptr())), fn.name() + '-' + str(hex(fn.node_this_ptr())), fillcolor='#CCCCFF')
+            dot.node(str(hex(fn.node_ptr())), fn.name() + '-' + str(hex(fn.node_ptr())), fillcolor='#CCCCFF')
         
         # recurve other nodes
         if hasattr(fn, 'next_functions'):
-            # print(fn.name())
+            
             for u in fn.next_functions:
                 if u is not None:
-                    dot.edge(str(hex(fn.node_this_ptr())), str(hex(u.node_this_ptr())))
+                    dot.edge(str(hex(fn.node_ptr())), str(hex(u.node_ptr())))
                     # print("{}->{}".format(fn.name(), u.name()))
                     add_nodes(u)
 
@@ -57,7 +57,7 @@ def make_graph(var, dpi="600"):
         dot.node(str(id(var)), str(id(var)), fillcolor=color)
         if (var.grad_fn):
             add_nodes(var.grad_fn)
-            dot.edge(str(id(var)), str(hex(var.grad_fn.node_this_ptr())))
+            dot.edge(str(id(var)), str(hex(var.grad_fn.node_ptr())))
 
 
     # handle multiple outputs
@@ -193,7 +193,7 @@ def parseParam(param_log):
   param["place"] = place
 
   start = param_log.find("Shape", start)
-  shape = '[{}]'.format(param_log[start + 7: param_log.find(']', start)].strip(' '))
+  shape = '[{}]'.format(param_log[start + 7: param_log.find(',', start)].strip(' '))
   param["shape"] = shape
 
   # print(param)
